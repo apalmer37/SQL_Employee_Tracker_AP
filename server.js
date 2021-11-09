@@ -1,30 +1,20 @@
-const express = require('express');
 const inquirer = require('inquirer');
-// Import and require mysql2
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const figlet = require("figlet");
 
-const PORT = process.env.PORT || 3004;
-const app = express();
-
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
 // Connect to database
-const db = mysql.createConnection(
+const connection = mysql.createConnection(
   {
     host: 'localhost',
-    // MySQL username,
+    port: 3306,
     user: 'root',
-    // TODO: Add MySQL password here
-    password: 'Password37$',
-    database: 'movies_db'
+    password: 'absurdFancyTrain656!',
+    database: 'employeeDB'
   },
-  console.log(`Connected to the movies_db database.`)
+  console.log(`Connected to the employee database.`)
 );
 
-db.connect((err) => {
+connection.connect((err) => {
   if (err) {
     console.log(err);
   }
@@ -47,6 +37,8 @@ const startPrompt = () => {
   })
 };
 
+
+
 // view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 
 const init = () => {
@@ -65,35 +57,106 @@ const init = () => {
     ]
   })
     .then(response => {
-      switch(response) {
+      switch(response.menu) {
         case "View all departments":
-        //viewAllDepartments()
-        break;
-        case "View all roles":
-          //viewAllRoles()
+        viewAllDepartments()
         break;
         case "View all employees":
+          viewAllEmployees()
+        break;
+        case "View all roles":
+          viewAllRoles()
         break;
         case "Add a department":
+          //addADepartment()
         break;
         case "Add a role":
+          addARole()
         break;
         case "Add an employee":
+          //addAnEmployee()
         break;
         case "Update an employee role":
+          //updateEmployee()
           break;
       }
     });
 
     const viewAllDepartments = () => {
-      
+      connection.query("SELECT * FROM department", (err, results) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(results)
+        init();
+      })
     }
 
+    const viewAllEmployees = () => {
+      connection.query("SELECT * FROM employee", (err, results) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(results)
+        init();
+      })
+    }
+   const viewAllRoles = () => {
+      connection.query("SELECT * FROM roles", (err, results) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(results)
+        init();
+      })
+    }
+ 
+
+    const addARole = (x) => {
+      let departments = connection.query("SELECT * FROM department")
+      inquirer
+        .prompt([
+          {
+            name: 'title',
+            message: 'What is the title of the new role',
+            type: 'input',
+          },
+          {
+            name: 'salary',
+            message: 'What is the salary of the new role',
+            type: 'input',
+          },
+          {
+            name: 'department_id',
+            message: 'What is the department ID of the new role',
+            type: 'list',
+            choices: departments((departmentId) => {
+              return {
+                name: departmentId.department_name,
+                value: departmentId.id
+              }
+            }),
+            message: 'What deparment ID does this role belong to?',
+          },
+        ])
+        .then(
+          connection.query(
+            'INSERT INTO roles SET ?',
+            { title: x.title },
+            { salary: x.salary },
+            { department_id: x.departmentId},
+            (err, results) => {
+              if (err) {
+                console.log(err);
+              }
+              console.table(results);
+              init();
+            }
+          )
+        );}
 
 
-
-
-
-
+      // find all employees
+      // update role 
 };
 
