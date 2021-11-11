@@ -1,32 +1,36 @@
 # SQL_Employee_Tracker_AP
 
 ## Table of Contents
+
 * [Description](#description)
-* [Installation](#installation)
+* [Video](#video)
 * [Technologies](#technologies)
-* [Links](#links)
-* [Questions](#questions)
+* [Authors](#authors)
 * [License](#license)
+* [Screenshot](#screenshot)
 
 ## Description
-Building the back end for an e-commerce site by configuring a working Express.js API to use Sequelize to interact with a MySQL database
+Created a content management system that utilizes a multitude of functions using CLI. You are able to output various tables that show departments, roles, employees, adding new employees to roles and departments, and updating a role for a specified employee. 
 
-## Installation
-* From the root directory run: npm i
-* To start the server run: npm start
+
+## Video
+https://github.com/apalmer37/SQL_Employee_Tracker_AP
+
+https://watch.screencastify.com/v/wxDaEwXPjNtfoWHsWyLq
+
 
 ## Technologies
-* Dotenv
-* Express
 * Mysql2
-* Sequalize
+* Inquirer
+* Node.js
+* CLI
+* Console.table
 
-## Links
-https://watch.screencastify.com/v/L6RvGYyZZyCQCaQmohtY
 
-## Questions
-Check out this repo on my Github: apalmer37.
-Reach out to me via email with any questions: alexpalmer37@gmail.com
+
+## Authors
+Alex Palmer
+
 
 ## License
-MIT
+ISC
